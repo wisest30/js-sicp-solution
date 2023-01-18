@@ -1,5 +1,5 @@
 function expmod(base, exp, m) {
-    return exp === 0 ? 1 : exp % 2 == 0 ?expmod(base, exp / 2, m) ** 2 % m : (base * expmod(base, exp - 1, m)) % m
+    return exp === 0 ? 1 : exp % 2 == 0 ? expmod(base, exp / 2, m) ** 2 % m : (base * expmod(base, exp - 1, m)) % m
 }
 
 function isCarmichaelNumberIter(n, a) {
