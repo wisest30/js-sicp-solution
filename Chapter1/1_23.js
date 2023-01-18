@@ -22,17 +22,13 @@ function divides(a, b) {
     return b % a === 0
 }
 
-function is_prime(n) {
-    return n === smallest_divisor(n)
-}
-
 function timed_prime_test(n) {
     display(n)
     return start_prime_test(n, get_time())
 }
 
 function start_prime_test(n, start_time) {
-    return is_prime(n) ? report_prime(n, get_time() - start_time) : true
+    return fast_is_prime(n, 10) ? report_prime(n, get_time() - start_time) : true
 }
 
 function report_prime(n, elapsed_time) {
@@ -54,6 +50,21 @@ function search_for_odd_primes(a, b) {
 
 function search_for_primes(a, b) {
     return a > b ? true : is_even(a) ? search_for_odd_primes(a + 1, b) : search_for_odd_primes(a, b)   
+}
+
+function expmod(base, exp, m) {
+    return exp === 0 ? 1 : is_even(exp) ? square(expmod(base, exp / 2, m)) % m : (base * expmod(base, exp - 1, m)) % m
+}
+
+function fermat_test(n) {
+    function try_it(a) {
+        return expmod(a, n, n) === a
+    }
+    return try_it(1 + Math.floor(Math.random() * (n - 1)))
+}
+
+function fast_is_prime(n, times) {
+    return times === 0 ? true : fermat_test(n) ? fast_is_prime(n, times - 1) : false
 }
 
 search_for_primes(1000, 1100)
