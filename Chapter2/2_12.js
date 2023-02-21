@@ -25,14 +25,22 @@ function upper_bound(interval) {
     return tail(interval)
 }
 
-function make_center_percent(c, p) {
-    return make_interval(c * (100 - p) / 100, c * (100 + p) / 100)
+function make_center_width(c, w) {
+    return make_interval(c - w, c + w)
 }
 
 function center(interval) {
     return (lower_bound(interval) + upper_bound(interval)) / 2
 }
 
+function width(interval) {
+    return (upper_bound(interval) - lower_bound(interval)) / 2
+}
+
+function make_center_percent(c, p) {
+    return make_center_width(c, c * p / 100)
+}
+
 function percent(interval) {
-    return (upper_bound(interval) - lower_bound(interval)) / 2 / center(i) * 100
+    return width(interval) / center(i) * 100
 }
