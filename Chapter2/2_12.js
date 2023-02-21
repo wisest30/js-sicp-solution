@@ -13,22 +13,26 @@ function tail(z) {
     return z(1)
 }
 
+function make_interval(x, y) { 
+    return pair(x, y)
+}
+
+function lower_bound(interval) {
+    return head(interval)
+}
+
+function upper_bound(interval) {
+    return tail(interval)
+}
+
 function make_center_percent(c, p) {
-    return pair(c, p)
+    return make_interval(c * (100 - p) / 100, c * (100 + p) / 100)
 }
 
-function center(i) {
-    return head(i)
+function center(interval) {
+    return (lower_bound(interval) + upper_bound(interval)) / 2
 }
 
-function percent(i) {
-    return tail(i)
-}
-
-function lower_bound(i) {
-    return center(i) * (100 - percent(i)) / 100
-}
-
-function upper_bound(i) {
-    return center(i) * (100 + percent(i)) / 100
+function percent(interval) {
+    return (upper_bound(interval) - lower_bound(interval)) / 2 / center(i) * 100
 }
