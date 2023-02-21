@@ -60,8 +60,24 @@ function div_interval(a, b) {
     return mul_interval(a, make_interval(1 / upper_bound(b), 1 / lower_bound(b)))
 }
 
+function make_center_width(c, w) {
+    return make_interval(c - w, c + w)
+}
+
+function center(interval) {
+    return (lower_bound(interval) + upper_bound(interval)) / 2
+}
+
+function width(interval) {
+    return (upper_bound(interval) - lower_bound(interval)) / 2
+}
+
 function make_center_percent(c, p) {
-    return make_interval(c * (100 - p) / 100, c * (100 + p) / 100)
+    return make_center_width(c, c * p / 100)
+}
+
+function percent(interval) {
+    return width(interval) / center(i) * 100
 }
 
 function par1(r1, r2) {
@@ -78,7 +94,9 @@ let r1 = make_center_percent(100, 30)
 let r2 = make_center_percent(200, 30)
 let p1 = par1(r1, r2)
 let p2 = par2(r1, r2)
+console.log(center(p1)) // 93.04029304029305
 console.log(lower_bound(p1) + ' ~ ' + upper_bound(p1)) // 25.128205128205128 ~ 160.95238095238096
+console.log(center(p2)) // 66.66666666666666
 console.log(lower_bound(p2) + ' ~ ' + upper_bound(p2)) // 46.666666666666664 ~ 86.66666666666666
 
 // 퍼센트 허용 오차가 작을 때
@@ -86,7 +104,9 @@ r1 = make_center_percent(100, 0.1)
 r2 = make_center_percent(200, 0.1)
 p1 = par1(r1, r2)
 p2 = par2(r1, r2)
+console.log(center(p1)) // 66.6669333336
 console.log(lower_bound(p1) + ' ~ ' + upper_bound(p1)) // 66.4669330669331 ~ 66.8669336002669
+console.log(center(p2)) // 66.66666666666666
 console.log(lower_bound(p2) + ' ~ ' + upper_bound(p2)) // 66.6 ~ 66.73333333333333
 
 // A/A A/B 계산
@@ -94,12 +114,16 @@ r1 = make_center_percent(100, 30)
 r2 = make_center_percent(200, 30)
 p1 = div_interval(r1, r1)
 p2 = div_interval(r1, r2)
+console.log(center(p1)) // 1.1978021978021978
 console.log(lower_bound(p1) + ' ~ ' + upper_bound(p1)) // 0.5384615384615385 ~ 1.857142857142857 
+console.log(center(p2)) // 0.5989010989010989
 console.log(lower_bound(p2) + ' ~ ' + upper_bound(p2)) // 0.2692307692307693 ~ 0.9285714285714285
 
 r1 = make_center_percent(100, 0.1)
 r2 = make_center_percent(200, 0.1)
 p1 = div_interval(r1, r1)
 p2 = div_interval(r1, r2)
+console.log(center(p1)) // 1.000002000002
 console.log(lower_bound(p1) + ' ~ ' + upper_bound(p1)) // 0.9980019980019981 ~ 1.002002002002002    
+console.log(center(p2)) // 0.500001000001
 console.log(lower_bound(p2) + ' ~ ' + upper_bound(p2)) // 0.49900099900099903 ~ 0.501001001001001
